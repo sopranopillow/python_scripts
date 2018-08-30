@@ -17,7 +17,7 @@ def getTableValues(letter, firstRange, secondRange, thirdRange, fourthRange):
     startIndex = letterRange[0]
     halfIndex = int(letterRange[0]+((letterRange[1]-letterRange[0])/2))
 
-    while startIndex <= letterRange[1] and halfIndex <= letterRange[1]:
+    while startIndex < letterRange[1] and halfIndex < letterRange[1]:
         output += (
             "\n"+
             "       <tr>\n"+
