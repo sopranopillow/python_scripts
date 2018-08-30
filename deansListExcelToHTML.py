@@ -5,30 +5,40 @@
 
 ### Script made by: Esteban Munoz
 ### Contact me for any questions at:
-### email: esteban.230@hotmail.com
-### github: sopranopillow
+### Email: esteban.230@hotmail.com
+### Github username: sopranopillow
 
 import xlwings as xwings
 import sys
 
 def getTableValues(letter, firstRange, secondRange, thirdRange, fourthRange):
     output = ""
-    currentIndex = 0
-    halfIndex = 
-    while firstRange[currentIndex][0] == letter and currentIndex < len(firstRange):
+    letterRange = getRangeOfLetter(letter, firstRange)
+    startIndex = letterRange[0]
+    halfIndex = int((letterRange[1]-letterRange[0])/2)
+
+    while firstRange[startIndex] < letterRange[1] and halfIndex < letterRange[1]:
         output += (
             "       <tr>\n"+
-            "           <td>"+firstRange[currentIndex]+" "+secondRange[currentIndex]+"</td>\n"+
-            "           <td>"+thirdRange[currentIndex]+"</td>\n"+
+            "           <td>"+firstRange[startIndex]+" "+secondRange[startIndex]+" "+thirdRange[startIndex]+"</td>\n"+
+            "           <td>"+fourthRange[startIndex]+"</td>\n"+
             "           <td>&#160;</td>\n"+
-            "           <td>"
+            "           <td>"+firstRange[halfIndex]+" "+secondRange[halfIndex]+" "+thirdRange[startIndex]+"</td>\n"+
+            "           <td>"+fourthRange[halfIndex]+"</td>\n"+
+            "       <tr>\n"
         )
     return output
 
 def getRangeOfLetter(letter, firstRange):
-    startLetterRange = 0
-    while firstRange[letter][0] == letter
-        letterRange+=1
+    startLetterIndex = 0
+    while firstRange[startLetterIndex][0] != letter
+        startLetterIndex+=1
+
+    endLetterIndex = startLetterIndex
+    while firstRange[endLetterIndex][0] == letter
+        endLetterIndex+=1
+
+    return [startLetterIndex, endLetterIndex]
 
 # Function that searched for the range of the columns given the name of the column
 def getRange(columnStart, sheet):
