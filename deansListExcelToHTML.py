@@ -15,27 +15,31 @@ def getTableValues(letter, firstRange, secondRange, thirdRange, fourthRange):
     output = ""
     letterRange = getRangeOfLetter(letter, firstRange)
     startIndex = letterRange[0]
-    halfIndex = int((letterRange[1]-letterRange[0])/2)
+    halfIndex = int(letterRange[0]+((letterRange[1]-letterRange[0])/2))
 
-    while firstRange[startIndex] < letterRange[1] and halfIndex < letterRange[1]:
+    while startIndex <= letterRange[1] and halfIndex <= letterRange[1]:
         output += (
+            "\n"+
             "       <tr>\n"+
-            "           <td>"+firstRange[startIndex]+" "+secondRange[startIndex]+" "+thirdRange[startIndex]+"</td>\n"+
-            "           <td>"+fourthRange[startIndex]+"</td>\n"+
+            "           <td>"+str(firstRange[startIndex])+" "+str(secondRange[startIndex])+" "+str(thirdRange[startIndex])+"</td>\n"+
+            "           <td>"+str(fourthRange[startIndex])+"</td>\n"+
             "           <td>&#160;</td>\n"+
-            "           <td>"+firstRange[halfIndex]+" "+secondRange[halfIndex]+" "+thirdRange[startIndex]+"</td>\n"+
-            "           <td>"+fourthRange[halfIndex]+"</td>\n"+
-            "       <tr>\n"
+            "           <td>"+str(firstRange[halfIndex])+" "+str(secondRange[halfIndex])+" "+str(thirdRange[startIndex])+"</td>\n"+
+            "           <td>"+str(fourthRange[halfIndex])+"</td>\n"+
+            "       <tr>"
         )
+        startIndex+=1
+        halfIndex+=1
+
     return output
 
 def getRangeOfLetter(letter, firstRange):
     startLetterIndex = 0
-    while firstRange[startLetterIndex][0] != letter
+    while firstRange[startLetterIndex][0] != letter and startLetterIndex < len(firstRange)-1:
         startLetterIndex+=1
 
     endLetterIndex = startLetterIndex
-    while firstRange[endLetterIndex][0] == letter
+    while firstRange[endLetterIndex][0] == letter and endLetterIndex < len(firstRange)-1:
         endLetterIndex+=1
 
     return [startLetterIndex, endLetterIndex]
@@ -67,14 +71,24 @@ def getValues(letter, columnRange, sheet):
     currentIndex = columnRange[0]
     values = []
     while currentIndex < columnRange[1] :
-        values.insert(currentIndex - columnRange[0], sheet.range(letter+str(currentIndex)).value)
+        if sheet.range(letter+str(currentIndex)).value == None:
+            values.insert(currentIndex - columnRange[0], "")
+        else:
+            values.insert(currentIndex - columnRange[0], sheet.range(letter+str(currentIndex)).value)
         currentIndex+=1
     return values
 
 def createTable(letter, firstRange, secondRange, thirdRange, fourthRange):
+    content = ""
+    if len(letter) > 1:
+        content += getTableValues('X', firstRange, secondRange, thirdRange, fourthRange) + getTableValues('Y', firstRange, secondRange, thirdRange, fourthRange)
+    else:
+        content += getTableValues(letter, firstRange, secondRange, thirdRange, fourthRange)
+
     output = (
         "<h2>\n"+
-        "   <a id=\""+letter.lower()+"\"><a/>"+letter+
+        "   <a id=\""+letter.lower()+"\"><a/>"+letter+"\n"+
+        "</h2>\n"+
         "<table border=\"0\" style=\"width: 100%\">\n"+
         "   <tbody>\n"+
         "       <tr>\n"+
@@ -93,14 +107,15 @@ def createTable(letter, firstRange, secondRange, thirdRange, fourthRange):
         "           </td>\n"+
         "       </tr>\n"+
         "   </tbody>\n"+
-        "   <tbody>\n"+
-                getTableValues(letter, firstRange, secondRange, thirdRange, fourthRange, columnRange)+
+        "   <tbody>"+
+                content+"\n"+
         "   </tbody>\n"+
         "</table>\n"+
         "<p class=\"textright\">\n"+
         "   <a href=\"#\">Back to top</a>\n"+
         "</p>\n"
     )
+    return output
 
 # Asking for a file path to the excel file
 print("Please enter the path of the file")
@@ -137,13 +152,14 @@ fourthRange = getValues('D', columnRange, sheet)
 
 alphabet = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','W','XY','Z']
 
-createTable('A', firstRange, secondRange, thirdRange, fourthRange)
+textToWrite = ""
 
-print(firstRange)
-print("\n\n")
-print(secondRange)
-print("\n\n")
-print(thirdRange)
-print("\n\n")
-print(fourthRange)
+for x in alphabet:
+    textToWrite += createTable(x, firstRange, secondRange, thirdRange, fourthRange)
+
+textFile = open("tableFile.txt", "w+")
+textFile.write(textToWrite)
+textFile.close()
+
+print("Your file is ready! Check your folder to access the file")
 print("\n\n")
