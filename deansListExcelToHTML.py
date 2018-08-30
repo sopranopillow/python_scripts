@@ -31,6 +31,16 @@ def getTableValues(letter, firstRange, secondRange, thirdRange, fourthRange):
         startIndex+=1
         halfIndex+=1
 
+    if startIndex != int(letterRange[0]+((letterRange[1]-letterRange[0])/2))-1 and startIndex+1 <= letterRange[1]:
+        output += (
+            "\n"+
+            "       <tr>\n"+
+            "           <td>"+str(firstRange[startIndex+1])+" "+str(secondRange[startIndex+1])+" "+str(thirdRange[startIndex+1])+"</td>\n"+
+            "           <td>"+str(fourthRange[startIndex+1])+"</td>\n"+
+            "       <tr>"
+        )
+
+
     return output
 
 def getRangeOfLetter(letter, firstRange):
