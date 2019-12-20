@@ -86,12 +86,10 @@ if __name__ == "__main__":
     for r in range(heightPartitions):
         for c in range(widthPartitions):
             partition = getImagePartition(image, r, c, sizePerPixel)
-            # cv2.imshow('partition '+str(r)+"x"+str(c), partition)
             mdc = getMostDominantColor(partition)
             appendPixelToImage(newImage, mdc, r, c, sizePerPixel)
 
     newImage = np.array(newImage, dtype=np.uint8)
-    print(newImage)
     cv2.imshow('originalImage', image)
     cv2.imshow('sprite', newImage)
 
