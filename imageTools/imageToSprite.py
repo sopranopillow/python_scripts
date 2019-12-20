@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 from sklearn.cluster import KMeans
+import os
 
 ################ code from https://www.timpoulsen.com/2018/finding-the-dominant-colors-of-an-image.html
 
@@ -71,14 +72,7 @@ def appendPixelToImage(newImage, mdc, row, col, sizePerPixel):
             if((y+r)<len(newImage) and (x+c)<len(newImage[0])):
                 newImage[y+r][x+c] = mdc
 
-################
-
-if __name__ == "__main__":
-    imageLocation = input("Enter location of image with its name as a relative path (for example ./image.png): ")
-    sizePerPixel = int(input("Enter size of each pixel (for example if 32 is entered each 32x32 pixels will be converted into 1 pixel): "))
-
-    image = cv2.imread(imageLocation)
-
+def getSprite(image, sizePerPixel):
     widthPartitions = int(image.shape[1]/sizePerPixel)
     heightPartitions = int(image.shape[0]/sizePerPixel)
     newImage = [[[0,0,0] for j in range(image.shape[0])] for x in range(image.shape[1])]
@@ -89,9 +83,46 @@ if __name__ == "__main__":
             mdc = getMostDominantColor(partition)
             appendPixelToImage(newImage, mdc, r, c, sizePerPixel)
 
-    newImage = np.array(newImage, dtype=np.uint8)
-    cv2.imshow('originalImage', image)
-    cv2.imshow('sprite', newImage)
+    return np.array(newImage, dtype=np.uint8)
+
+def singleImage():
+    imageLocation = input("Enter location of image with its name as a relative path (for example ./image.png): ")
+    sizePerPixel = int(input("Enter size of each pixel (for example if 32 is entered each 32x32 pixels will be converted into 1 pixel): "))
+    image = cv2.imread(imageLocation)
+    getSprite(image, sizePerPixel)
+
+def multipleImage():
+    print('Note: format of file should look as follows:\nimagePath\nsizePerPixel\nnameToBeSavedAs\n...')
+    filePath = input("Enter location of image with its name as a relative path (for example ./image.txt): ")
+
+    with open(filePath, 'r') as file:
+        lines = file.readlines()
+
+    if not os.path.exists('./resultingImages'):
+        os.makedirs('./resultingImages')
+
+    for i in range(int(len(lines)/3)):
+        if lines[i*3] != '' or lines[i*3] != '\n':
+            imagePath = lines[i*3].replace('\n', '')
+            sizePerPixel = int(lines[i*3+1].replace('\n', ''))
+            spriteName = lines[i*3+2].replace('\n', '')
+            originalImage = cv2.imread(imagePath)
+            sprite = getSprite(originalImage, sizePerPixel)
+
+            cv2.imshow('img'+str(i), originalImage)
+            cv2.imshow('sprite'+str(i), sprite)
+            cv2.imwrite('./resultingImages/'+spriteName, sprite)
+
+    file.close()
+
+################
+
+if __name__ == "__main__":
+    singleMultiple = input("Enter s for single image handling or m for multiple images: ")
+    if singleMultiple == 's':
+        singleImage()
+    else:
+        multipleImage()
 
     cv2.waitKey(0)
     cv2.destroyAllWindows()

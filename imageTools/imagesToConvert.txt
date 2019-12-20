@@ -1,0 +1,9 @@
+../../../../Pictures/chest2.jpg
+8
+chest2Sprite.png
+../../../../Pictures/chest.jpg
+8
+chestSprite.png
+../../../../Pictures/sloth.jpg
+8
+slothSprite.png
