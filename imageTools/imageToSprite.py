@@ -88,8 +88,16 @@ def getSprite(image, sizePerPixel):
 def singleImage():
     imageLocation = input("Enter location of image with its name as a relative path (for example ./image.png): ")
     sizePerPixel = int(input("Enter size of each pixel (for example if 32 is entered each 32x32 pixels will be converted into 1 pixel): "))
+    spriteName = input("Enter the name of the sprite to be created with image extension (for example sprite2.png): ")
     image = cv2.imread(imageLocation)
-    getSprite(image, sizePerPixel)
+    sprite = getSprite(image, sizePerPixel)
+
+    if not os.path.exists('./resultingImages'):
+        os.makedirs('./resultingImages')
+
+    cv2.imshow('img ', image)
+    cv2.imshow('sprite ', sprite)
+    cv2.imwrite('./resultingImages/'+spriteName, sprite)
 
 def multipleImage():
     print('Note: format of file should look as follows:\nimagePath\nsizePerPixel\nnameToBeSavedAs\n...')
@@ -109,8 +117,8 @@ def multipleImage():
             originalImage = cv2.imread(imagePath)
             sprite = getSprite(originalImage, sizePerPixel)
 
-            cv2.imshow('img'+str(i), originalImage)
-            cv2.imshow('sprite'+str(i), sprite)
+            cv2.imshow('img '+str(i), originalImage)
+            cv2.imshow('sprite '+str(i), sprite)
             cv2.imwrite('./resultingImages/'+spriteName, sprite)
 
     file.close()
