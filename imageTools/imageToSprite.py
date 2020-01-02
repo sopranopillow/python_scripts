@@ -75,7 +75,7 @@ def appendPixelToImage(newImage, mdc, row, col, sizePerPixel):
 def getSprite(image, sizePerPixel):
     widthPartitions = int(image.shape[1]/sizePerPixel)
     heightPartitions = int(image.shape[0]/sizePerPixel)
-    newImage = [[[0,0,0] for j in range(image.shape[0])] for x in range(image.shape[1])]
+    newImage = [[[0,0,0] for j in range(image.shape[1])] for x in range(image.shape[0])]
 
     for r in range(heightPartitions):
         for c in range(widthPartitions):
