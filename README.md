@@ -23,11 +23,11 @@ Result
 
 Link Image - ( 1 pixel = 16 pixels from original ):
 
-![Alt text](/imageTools/originalImages/link.jpg?raw=true "Autum Leaves Original")
+![Alt text](/imageTools/originalImages/link.jpg?raw=true "Link Original")
 
 Original
 
-![Alt text](/imageTools/resultingImages/linkSprite.png?raw=true "Autum Leaves Pixelated")
+![Alt text](/imageTools/resultingImages/linkSprite.png?raw=true "Link Pixelated")
 
 Result
 ***
