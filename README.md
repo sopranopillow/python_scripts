@@ -30,6 +30,13 @@ Original
 ![Alt text](/imageTools/resultingImages/linkSprite.png?raw=true "Link Pixelated")
 
 Result
+
+Here is an example of how the pixel is created:
+
+![Alt text](/ReadmeSources/explanationImageTools.png?raw=true "Explanation matrix")
+
+With the Kmeans cluster we find the most dominant color, in this case c, and then we replace the values in the new image with that smae color. To avoid having to resize the image and keep the same resolution, we do not convert the 4x4 matrix into a 1x1 with the color. We create a new 4x4 matrix with the dominant color in all the cells so the resolution doesn't change.
+
 ***
 ## ./deansListExcelToHTML
 This script was made for a job I was working on. This script uses xlWings to handle the excel file.
